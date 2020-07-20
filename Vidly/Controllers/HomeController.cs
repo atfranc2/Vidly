@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Vidly.Models;
+using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
@@ -13,18 +15,16 @@ namespace Vidly.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Customers()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return Redirect("/Customers");
         }
 
-        public ActionResult Contact()
+        public ActionResult Movies()
         {
             ViewBag.Message = "Your contact page.";
 
-            return View();
+            return Redirect("/Movies");
         }
     }
 }
