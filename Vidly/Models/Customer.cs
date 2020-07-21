@@ -19,6 +19,7 @@ namespace Vidly.Models
         public string LastName { get; set; }
 
         [Display(Name = "Date of Birth")]
+        [MemberAgeValidation]
         public Nullable<DateTime> BirthDate { get; set; }
         
         public int Id { get; set; }

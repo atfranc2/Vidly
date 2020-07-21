@@ -6,23 +6,29 @@
 <h2>New Customer</h2>
 
 @using (Html.BeginForm("Save", "Customers"))
-{<div>
+{
+    @Html.ValidationSummary()
+    <div>
         <div class="form-group" style="float:left;width:calc(20% - 5px);">
             @Html.LabelFor(m => m.Customer.FirstName)
             @Html.TextBoxFor(m => m.Customer.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.FirstName)
         </div>
         <div class="form-group" style="float:right;width:calc(80% - 5px);">
             @Html.LabelFor(m => m.Customer.LastName)
             @Html.TextBoxFor(m => m.Customer.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.LastName)
         </div>
-    </div>
-    <div class="form-group" style="clear:both">
-        @Html.LabelFor(m => m.Customer.BirthDate)
-        @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:d MMM yyyy}", new { @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.MembershipTypeId)
         @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type...", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
+    </div>
+    <div class="form-group" style="clear:both">
+        @Html.LabelFor(m => m.Customer.BirthDate)
+        @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.BirthDate)
     </div>
     <div class="checkbox">
         <label>
@@ -30,6 +36,7 @@
         </label>
     </div>
     @Html.HiddenFor(m => m.Customer.Id)
+    @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Submit</button>
 }
 
