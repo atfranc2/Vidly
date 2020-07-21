@@ -24,6 +24,54 @@ namespace Vidly.Controllers
             _context.Dispose(); 
         }
 
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+            var viewModel = new CustomerFormViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+            return View("CustomerForm", viewModel); 
+        }
+
+        [HttpPost]
+        public ActionResult Save(Customer customer)
+        {
+            if (customer.Id == 0)
+                _context.Customers.Add(customer);
+            else
+            {
+                var updateCustomerDb = _context.Customers.Single(m => m.Id == customer.Id);
+                updateCustomerDb.FirstName = customer.FirstName; 
+                updateCustomerDb.LastName = customer.LastName; 
+                updateCustomerDb.BirthDate = customer.BirthDate; 
+                updateCustomerDb.isSubscribedToNewsLetter = customer.isSubscribedToNewsLetter; 
+                updateCustomerDb.MembershipTypeId = customer.MembershipTypeId; 
+
+            }
+            _context.SaveChanges(); 
+
+            return RedirectToAction("Index", "Customers");
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            var customer = _context.Customers.SingleOrDefault(m => m.Id == Id); 
+
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new CustomerFormViewModel
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+
+            return View("CustomerForm", viewModel);
+        }
+
         public ActionResult Index()
         {
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();  

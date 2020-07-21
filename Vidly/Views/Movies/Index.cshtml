@@ -6,6 +6,12 @@
 
 <h2>Movies</h2>
 
+<form action="/Movies/New">
+    <input type="submit" value="New Movie" class="btn btn-primary" />
+</form>
+
+<p></p>
+
 @if (!Model.Any())
 {
     <p>There are no movies yet</p>
@@ -22,7 +28,7 @@ else
         {
     <tr>
         <th>
-            @Html.ActionLink(movie.Name, "Details", "Movies", new { id = movie.Id }, null)
+            @Html.ActionLink(movie.Name, "Edit", "Movies", new { id = movie.Id }, null)
         </th>
         <th style="font-weight:normal">
             @movie.MovieGenre.Genre
