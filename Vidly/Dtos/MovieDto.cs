@@ -22,6 +22,8 @@ namespace Vidly.Dtos
         [Range(1, 20)]
         public int NumberInStock { get; set; }
 
+        public MovieGenreDto MovieGenre { get; set; }
+
         [Required]
         public int MovieGenreId { get; set; }
     }
