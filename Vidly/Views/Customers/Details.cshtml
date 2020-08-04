@@ -5,10 +5,17 @@
 
 @{  
     var customer = @Model.FirstName + " " + @Model.LastName;
-
 }
 
 <h2> @customer </h2>
+
+<p>
+    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { Id = Model.Id }, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("New Rental", "Index", "Rentals", new { customerId = Model.Id }, new { @class = "btn btn-primary" })
+</p>
+
 <ul>
     <li>Membership Type: @Model.MembershipType.Name</li>
     @if (@Model.BirthDate.HasValue)

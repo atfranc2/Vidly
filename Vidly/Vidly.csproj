@@ -227,10 +227,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\CustomersController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
+    <Compile Include="Controllers\Api\RentalsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\RentalsController.cs" />
     <Compile Include="Dtos\CustomerDto.cs" />
     <Compile Include="Dtos\MembershipTypeDto.cs" />
     <Compile Include="Dtos\MovieDto.cs" />
@@ -316,6 +318,14 @@
     <Compile Include="Migrations\202008031534575_UpdateRentalModel.Designer.cs">
       <DependentUpon>202008031534575_UpdateRentalModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008031624286_RevertRentalChange.cs" />
+    <Compile Include="Migrations\202008031624286_RevertRentalChange.Designer.cs">
+      <DependentUpon>202008031624286_RevertRentalChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008031831233_EditRentalModel.cs" />
+    <Compile Include="Migrations\202008031831233_EditRentalModel.Designer.cs">
+      <DependentUpon>202008031831233_EditRentalModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -335,6 +345,7 @@
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\CustomerFormViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\RentalFormViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-lumen.css" />
@@ -575,10 +586,10 @@
     <Content Include="Views\Customers\CustomerForm.cshtml" />
     <Content Include="Views\Movies\MovieForm.cshtml" />
     <Content Include="Views\Movies\ReadOnlyIndex.cshtml" />
+    <Content Include="Views\Rentals\RentalForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Rentals\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -650,6 +661,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008031534575_UpdateRentalModel.resx">
       <DependentUpon>202008031534575_UpdateRentalModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008031624286_RevertRentalChange.resx">
+      <DependentUpon>202008031624286_RevertRentalChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008031831233_EditRentalModel.resx">
+      <DependentUpon>202008031831233_EditRentalModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -35,7 +35,8 @@
                     {
                         data: "firstName",
                         render: function(data, type, customer) {
-                            return "<a href='/customers/edit/" + customer.id + "'>" + data + " " + customer.lastName + "</a>";
+                            return "<a href='/customers/details/" + customer.id + "'>" + data + " " + customer.lastName + "</a>";
+                            //return "<a href='/customers/edit/" + customer.id + "'>" + data + " " + customer.lastName + "</a>";
                         }
                     },
                     {
