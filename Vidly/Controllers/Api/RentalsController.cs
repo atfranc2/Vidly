@@ -30,6 +30,7 @@ namespace Vidly.Controllers.Api
             return Ok(rentals); 
         }
 
+        [HttpGet]
         public IHttpActionResult getCustomerRentals(int customerId)
         {
             var rentals = _context.Rentals
