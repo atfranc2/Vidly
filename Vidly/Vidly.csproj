@@ -242,6 +242,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelperMethods\MovieAPI.cs" />
+    <Compile Include="HelperMethods\RentalApi.cs" />
     <Compile Include="Migrations\202007201612254_InitialMigration.cs" />
     <Compile Include="Migrations\202007201612254_InitialMigration.Designer.cs">
       <DependentUpon>202007201612254_InitialMigration.cs</DependentUpon>
@@ -335,6 +337,7 @@
     <Compile Include="Models\MembershipType.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieGenre.cs" />
+    <Compile Include="Models\MovieInStock.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -580,7 +583,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Movies.cshtml" />
     <Content Include="Views\Shared\_NavBar.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\OldDetails.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Movies\Details.cshtml" />
     <Content Include="Views\Movies\Index.cshtml" />
@@ -588,7 +591,7 @@
     <Content Include="Views\Movies\MovieForm.cshtml" />
     <Content Include="Views\Movies\ReadOnlyIndex.cshtml" />
     <Content Include="Views\Rentals\RentalForm.cshtml" />
-    <Content Include="Views\Customers\Test.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

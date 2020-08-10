@@ -73,5 +73,17 @@ namespace Vidly.Controllers.Api
             _context.Rentals.Remove(rentalInDb);
             _context.SaveChanges();
         }
+
+        [HttpDelete]
+        public void DeleteRentalByCustomerAndMovieId(int customerId, int movieId)
+        {
+            var rentalInDb = _context.Rentals.SingleOrDefault(c => c.MovieId == movieId && c.CustomerId == customerId);
+
+            if (rentalInDb == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            _context.Rentals.Remove(rentalInDb);
+            _context.SaveChanges();
+        }
     }
 }

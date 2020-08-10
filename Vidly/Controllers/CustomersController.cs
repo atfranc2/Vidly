@@ -10,12 +10,15 @@ using Vidly.ViewModels;
 using System.Net.Http;
 using Vidly.Dtos;
 using System.Web.UI;
+using Vidly.HelperMethods;
 
 namespace Vidly.Controllers
 {
     public class CustomersController : Controller
     {
         private ApplicationDbContext _context;
+        private MovieAPI movieApiHelper = new MovieAPI();
+        private RentalApi rentalApiHelper = new RentalApi(); 
 
         public CustomersController()
         {
@@ -97,46 +100,24 @@ namespace Vidly.Controllers
         {
 
             var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == Id);
-            ViewBag.CustomerName = customer.FirstName + " " + customer.LastName;
+            ViewBag.Customer = customer;
 
             if (customer == null)
             {
                 return HttpNotFound();
             }
 
-            var rentals = GetRentalDtos(Id);
+            var rentals = rentalApiHelper.GetRentalDtos(Id);
             var movieIds = GetCustomerMovieIds(rentals);
             var movies = new MovieDto[movieIds.Length];
             var cnt = 0; 
             foreach (var id in movieIds)
             {
-                movies[cnt++] = GetMovie(id); 
+                movies[cnt++] = movieApiHelper.GetMovieDto(id); 
             }
 
-            return View("Test", movies);
+            return View("Details", movies);
             // return View(customer);
-        }
-
-        private IEnumerable<RentalDto> GetRentalDtos(int customerId)
-        {
-            IEnumerable<RentalDto> rentals = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:44311/api/rentals");
-                var responseTask = client.GetAsync("?CustomerId="+customerId);
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var model = result.Content.ReadAsAsync<IList<RentalDto>>();
-                    model.Wait();
-
-                    rentals = model.Result;
-                }
-
-                return rentals;
-            }
         }
 
         private int[] GetCustomerMovieIds(IEnumerable<RentalDto> rentalDtos)
@@ -147,28 +128,6 @@ namespace Vidly.Controllers
                 movieIds[cnt++] = dto.MovieId;
 
             return movieIds; 
-        }
-
-        private MovieDto GetMovie(int movieId)
-        {
-            MovieDto movie = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:44311/api/movies");
-                var responseTask = client.GetAsync("?id="+movieId);
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var model = result.Content.ReadAsAsync<MovieDto>();
-                    model.Wait();
-
-                    movie = model.Result;
-                }
-
-                return movie;
-            }
         }
     }
 }

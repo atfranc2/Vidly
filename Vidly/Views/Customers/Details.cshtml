@@ -1,28 +1,18 @@
-﻿@model Vidly.Models.Customer
-
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model Vidly.Dtos.MovieDto[]
 
 @{
-    var customer = @Model.FirstName + " " + @Model.LastName;
+    ViewBag.Title = "Test";
 }
 
-<h2> @customer </h2>
+<h2>@ViewBag.Customer.FirstName @ViewBag.Customer.LastName</h2>
+
 
 <p>
-    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { Id = Model.Id }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { Id = @ViewBag.Customer.Id }, new { @class = "btn btn-primary" })
 </p>
 <p>
-    @Html.ActionLink("New Rental", "Index", "Rentals", new { customerId = Model.Id }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("New Rental", "Index", "Rentals", new { customerId = @ViewBag.Customer.Id }, new { @class = "btn btn-primary" })
 </p>
-
-<ul>
-    <li>Membership Type: @Model.MembershipType.Name</li>
-    @if (@Model.BirthDate.HasValue)
-    {
-        <li>Birthdate: @Model.BirthDate.Value.ToShortDateString()</li>
-    }
-</ul>
 
 <table id="rentals" class="table table-bordered table-hover">
     <thead>
@@ -33,67 +23,51 @@
         </tr>
     </thead>
     <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.MovieGenre.Genre</td>
+            <td>
+                <button data-customer-id=@ViewBag.Customer.Id data-movie-id=@item.Id class='btn-link js-delete'>
+                    <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                </button>
+            </td>
+        </tr>
+        }
     </tbody>
 </table>
 
-@section scripts
-{
-    <script>
-        function fetchData(url) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url,
-                    dataType: 'json'
-                })
-                    .done(function (res) {
-                        resolve(res);
-                    })
-                    .fail(function (err) {
-                        reject('error');
-                    })
-            });
-        }
+@section scripts{
 
-        function getMovieIds(id) {
-            
-        }
+    
+    <script>
 
         $(document).ready(function () {
 
-            var table = $('#rentals').DataTable({
-                ajax: {
-                    url: "/api/rentals?customerID=" + @Model.Id,
-                    dataSrc: ""
-                },
-                columns: [
-                    {
-                        data: "movieId",
-                        render: function (data, type, movie) {
-                            movieTitle = $.getJSON("/api/movies/" + data, function (json) {
-                                var mdat = [];
-                                $.each(json, function (k, v) {
-                                    if (k == "name") {
-                                        mdat += "<tr><td><a>" + v + "</a></td></tr>";
-                                        $('#rentals').append(mdat);
+            var table = $("#rentals").DataTable();
 
-                                    }
-                                });
-                                
-
-                            });
-
-                        }
-                    },
-                    {
-                        data: "customerId"
-                    },
-                    {
-                        data: "movieId"
+            $("#rentals").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete this rental record?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/rentals?customerId=" + button.attr("data-customer-id") + "&movieId=" + button.attr("data-movie-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                                window.location.reload();
+                            }
+                        });
                     }
-                ]
+                
+                });
             });
+
         });
-    </script>
+
+    </script>        
+        
+    
 }
-
-

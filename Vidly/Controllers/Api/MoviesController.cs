@@ -57,12 +57,12 @@ namespace Vidly.Controllers.Api
 
         [HttpPut]
         [Authorize(Roles = RoleName.CanManageMovies)]
-        public IHttpActionResult UpdateMovie(int id, MovieDto movieDto)
+        public IHttpActionResult UpdateMovie(MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();                
 
-            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
+            var movie = _context.Movies.SingleOrDefault(m => m.Id == movieDto.Id);
 
             if (movie == null)
                 return NotFound();

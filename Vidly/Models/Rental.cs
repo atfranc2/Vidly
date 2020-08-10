@@ -13,6 +13,7 @@ namespace Vidly.Models
         public int CustomerId { get; set; }
 
         [Display(Name = "Movie Rented")]
+        [MovieInStock]
         public int MovieId { get; set; }
     }
 }

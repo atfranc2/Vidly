@@ -8,6 +8,7 @@ using System.Data.Entity;
 using Vidly.Models;
 using Vidly.ViewModels;
 using Vidly.Dtos;
+using Vidly.HelperMethods;
 
 namespace Vidly.Controllers
 {
@@ -27,7 +28,8 @@ namespace Vidly.Controllers
 
             var rentalDto = new RentalDto
             {
-                CustomerId = customerId
+                CustomerId = customerId,
+                MovieId = 0
             };
 
             var viewModel = new RentalFormViewModel
@@ -39,10 +41,18 @@ namespace Vidly.Controllers
             return View("RentalForm", viewModel);
         }
 
-        public ActionResult Save(Rental rental)
+        public ActionResult Save(RentalFormViewModel rental)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("RentalForm", rental);
+            }
 
-            return View("Customers", "Details", rental.CustomerId);
+            new MovieAPI().decrementMovieStock(rental.RentalDto.MovieId);
+            new RentalApi().CreateRental(rental.RentalDto);
+
+
+            return RedirectToAction("Details", "Customers", new { id = rental.RentalDto.CustomerId });
         }
     }
 }

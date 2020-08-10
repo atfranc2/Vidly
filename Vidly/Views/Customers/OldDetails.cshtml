@@ -1,0 +1,99 @@
+﻿@model Vidly.Models.Customer
+
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+
+@{
+    var customer = @Model.FirstName + " " + @Model.LastName;
+}
+
+<h2> @customer </h2>
+
+<p>
+    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { Id = Model.Id }, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("New Rental", "Index", "Rentals", new { customerId = Model.Id }, new { @class = "btn btn-primary" })
+</p>
+
+<ul>
+    <li>Membership Type: @Model.MembershipType.Name</li>
+    @if (@Model.BirthDate.HasValue)
+    {
+        <li>Birthdate: @Model.BirthDate.Value.ToShortDateString()</li>
+    }
+</ul>
+
+<table id="rentals" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Movie</th>
+            <th>Genre</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        function fetchData(url) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url,
+                    dataType: 'json'
+                })
+                    .done(function (res) {
+                        resolve(res);
+                    })
+                    .fail(function (err) {
+                        reject('error');
+                    })
+            });
+        }
+
+        function getMovieIds(id) {
+            
+        }
+
+        $(document).ready(function () {
+
+            var table = $('#rentals').DataTable({
+                ajax: {
+                    url: "/api/rentals?customerID=" + @Model.Id,
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "movieId",
+                        render: function (data, type, movie) {
+                            movieTitle = $.getJSON("/api/movies/" + data, function (json) {
+                                var mdat = [];
+                                $.each(json, function (k, v) {
+                                    if (k == "name") {
+                                        mdat += "<tr><td><a>" + v + "</a></td></tr>";
+                                        $('#rentals').append(mdat);
+
+                                    }
+                                });
+                                
+
+                            });
+
+                        }
+                    },
+                    {
+                        data: "customerId"
+                    },
+                    {
+                        data: "movieId"
+                    }
+                ]
+            });
+        });
+    </script>
+}
+
+

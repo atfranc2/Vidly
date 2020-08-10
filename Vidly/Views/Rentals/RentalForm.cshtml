@@ -6,17 +6,21 @@
 
 <h2>Rental Form</h2>
 
-<div class="form-group">
-    @Html.LabelFor(m => m.RentalDto.MovieId)
-    @Html.DropDownListFor(m => m.RentalDto.MovieId, new SelectList(Model.Movies, "Id", "Name"), "Select Movie...", new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.RentalDto.MovieId)
-</div>
+@using (Html.BeginForm("Save", "Rentals"))
+{
 
-@Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.RentalDto.MovieId)
+        @Html.DropDownListFor(m => m.RentalDto.MovieId, new SelectList(Model.Movies, "Id", "Name"), "Select Movie...", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.RentalDto.MovieId)
+    </div>
+    @Html.HiddenFor(m => Model.RentalDto.CustomerId)
 
-<button type="submit" class="btn btn-primary">Submit</button>
+    @Html.AntiForgeryToken()
 
+    <button type="submit" class="btn btn-primary">Submit</button>
 
+}
 
 
 
